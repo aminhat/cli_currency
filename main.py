@@ -25,7 +25,7 @@ def main():
             list_filter(args.filter_name, args.sort)
         else:
             list_all(args.sort)
-    elif args.comand == 'report':
+    elif args.command == 'report':
         report()
 
 if __name__ == '__main__':

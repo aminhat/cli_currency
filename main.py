@@ -1,6 +1,6 @@
 def main():
     import argparse
-    from cli import add, list_all, list_filter, report
+    from cli.commands import add, list_all, list_filter, report
 
     parser = argparse.ArgumentParser(description='My Python CLI Application')
     subparsers = parser.add_subparsers(dest='command')

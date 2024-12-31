@@ -7,7 +7,7 @@ def main():
 
     add_parser = subparsers.add_parser('add', help='Add a currency')
     add_parser.add_argument('name', type=str, help='Name of currency')
-    add_parser.add_argument('value', type=int, help='Value of currency')
+    add_parser.add_argument('value', type=float, help='Value of currency')
 
     list_parser = subparsers.add_parser('list', help='List all currencies')
     list_parser.add_argument('-filter', action='store_true', help='Filter by name')
@@ -24,7 +24,7 @@ def main():
         add(args.name, args.value)  
     elif args.command == 'list':
         if args.filter == True:
-            list_filter(args.filter_name, args.sort)
+            list_filter(args.filter_name, args.sort, 'ASC' if args.asc else 'DESC')
         else:
             list_all(args.sort, 'ASC' if args.asc else 'DESC')
     elif args.command == 'report':

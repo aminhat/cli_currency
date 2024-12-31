@@ -10,11 +10,13 @@ def main():
     add_parser.add_argument('value', type=float, help='Value of currency')
 
     list_parser = subparsers.add_parser('list', help='List all currencies')
-    list_parser.add_argument('-filter', action='store_true', help='Filter by name')
+    list_parser.add_argument('-f', '--filter', action='store_true', help='Filter by name')
     list_parser.add_argument('filter_name', type=str, nargs='?', help='Name of currency to be filtered')
-    list_parser.add_argument('-sort', action='store_true', help='Sort output by value')
-    list_parser.add_argument('-asc', action='store_true', help='Sort in ascending order')
-    list_parser.add_argument('-desc', action='store_true', help='Sort in descending order')
+    list_parser.add_argument('-s', '--sort', action='store_true', help='Sort output by value')
+    list_parser.add_argument('--asc', action='store_true', help='Sort in ascending order')
+    list_parser.add_argument('--desc', action='store_true', help='Sort in descending order')
+    list_parser.add_argument('--price', action='store_true', help='Sort by value')
+    list_parser.add_argument('--date', action='store_true', help='Sort by date created at')
 
     report_parser = subparsers.add_parser('report', help='Report min and max value of each currency')
 
@@ -23,7 +25,10 @@ def main():
     if args.command == 'add': 
         add(args.name, args.value)
     elif args.command == 'list': 
-        listc(args.filter_name if args.filter else '', args.sort, 'ASC' if args.asc else 'DESC')
+        listc(args.filter_name if args.filter else '',
+            args.sort,
+            'ASC' if args.asc else 'DESC', 
+            'created_at' if args.date else 'value')
     elif args.command == 'report':
         report()
 

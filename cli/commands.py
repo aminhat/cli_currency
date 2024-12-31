@@ -4,12 +4,12 @@ from termcolor import colored
 def add(name, values):
     postdata_db("INSERT INTO currencies (name, value) VALUES (%s, %s)", (name, values))
 
-def listc(filter_name, is_sorted, sort_order):
-    sort_query = f"ORDER BY value {sort_order}" if is_sorted else ""
+def listc(filter_name, is_sorted, sort_order, sort_by):
+    sort_query = f"ORDER BY {sort_by} {sort_order}" if is_sorted else ""
     filter_query = f"WHERE name = '{filter_name}'" if filter_name != "" else ""
     data = getdata_db(f"SELECT name, value FROM currencies {filter_query} {sort_query}")
     
-    print(colored(f"{'Name':<10}{'Value':<10}", 'green'))
+    print(colored(f"{'Name':<10}{'price':<10}", 'green'))
     for row in data:
         print(f"{row[0]:<10}{row[1]:<10}")
 
@@ -23,7 +23,6 @@ def report():
             currency_data[name] = []
         currency_data[name].append(value)
     
+    print(colored(f"{'Currency':<10}{'Min price':<11}{'Max price':<10}", 'green'))
     for name, values in currency_data.items():
-        min_value = min(values)
-        max_value = max(values)
-        print(f"Currency: {name}, Min Value: {min_value}, Max Value: {max_value}")
+        print(f"{name:<10}{min(values):<11}{max(values):<10}")

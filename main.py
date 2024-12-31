@@ -13,6 +13,8 @@ def main():
     list_parser.add_argument('-filter', action='store_true', help='Filter by name')
     list_parser.add_argument('filter_name', type=str, nargs='?', help='Name of currency to be filtered')
     list_parser.add_argument('-sort', action='store_true', help='Sort output by value')
+    list_parser.add_argument('-asc', action='store_true', help='Sort in ascending order')
+    list_parser.add_argument('-desc', action='store_true', help='Sort in descending order')
 
     report_parser = subparsers.add_parser('report', help='Report min and max value of each currency')
 
@@ -24,7 +26,7 @@ def main():
         if args.filter == True:
             list_filter(args.filter_name, args.sort)
         else:
-            list_all(args.sort)
+            list_all(args.sort, 'ASC' if args.asc else 'DESC')
     elif args.command == 'report':
         report()
 

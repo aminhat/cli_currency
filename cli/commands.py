@@ -6,9 +6,8 @@ from cli.mydb import getdata_db, postdata_db
 def add(name, values):
     postdata_db("INSERT INTO currencies (name, value) VALUES (%s, %s)", (name, values))
 
-def list_all(sort):
-    #get data from database in descending order
-    data = getdata_db("SELECT * FROM currencies ORDER BY value DESC" if sort else "SELECT * FROM currencies")
+def list_all(sort, order):
+    data = getdata_db(f"SELECT * FROM currencies ORDER BY value {order}" if sort else "SELECT * FROM currencies")
 
     for row in data:
         print(f'Name: {row[1]}, Value: {row[2]}')

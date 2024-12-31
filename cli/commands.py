@@ -1,12 +1,10 @@
 import csv
 import datetime
 import uuid
+from cli.mydb import getdata_db, postdata_db
 
-def add(name, value):
-    unique_id = str(uuid.uuid4())
-    with open('database.csv', mode='a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([unique_id, name, value, datetime.datetime.now()])
+def add(name, values):
+    postdata_db("INSERT INTO currencies (name, value) VALUES (%s, %s)", (name, values))
 
 def list_all(sort):
     with open('database.csv', mode='r', newline='') as file:

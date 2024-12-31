@@ -14,18 +14,16 @@ def listc(filter_name, is_sorted, sort_order):
         print(f"{row[0]:<10}{row[1]:<10}")
 
 def report():
-    with open('database.csv', mode='r', newline='') as file:
-        reader = csv.reader(file)
-        currency_data = {}
-
-        for row in reader:
-            name = row[1]
-            value = float(row[2])
-            if name not in currency_data:
-                currency_data[name] = []
-            currency_data[name].append(value)
-
-        for name, values in currency_data.items():
-            min_value = min(values)
-            max_value = max(values)
-            print(f'Currency: {name}, Min Value: {min_value}, Max Value: {max_value}')
+    data = getdata_db("SELECT name, value FROM currencies")
+    currency_data = {}
+    for row in data:
+        name = row[0]
+        value = float(row[1])
+        if name not in currency_data:
+            currency_data[name] = []
+        currency_data[name].append(value)
+    
+    for name, values in currency_data.items():
+        min_value = min(values)
+        max_value = max(values)
+        print(f"Currency: {name}, Min Value: {min_value}, Max Value: {max_value}")

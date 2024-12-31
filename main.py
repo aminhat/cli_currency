@@ -1,6 +1,6 @@
 def main():
     import argparse
-    from cli.commands import add, list_all, list_filter, report
+    from cli.commands import add, listc, list_all, list_filter, report
 
     parser = argparse.ArgumentParser(description='My Python CLI Application')
     subparsers = parser.add_subparsers(dest='command')
@@ -21,12 +21,14 @@ def main():
     args = parser.parse_args()
 
     if args.command == 'add': 
-        add(args.name, args.value)  
-    elif args.command == 'list':
-        if args.filter == True:
-            list_filter(args.filter_name, args.sort, 'ASC' if args.asc else 'DESC')
-        else:
-            list_all(args.sort, 'ASC' if args.asc else 'DESC')
+        add(args.name, args.value)
+    elif args.command == 'list': 
+        listc(args.filter_name if args.filter else '', args.sort, 'ASC' if args.asc else 'DESC')
+    # elif args.command == 'list':
+    #     if args.filter == True:
+    #         list_filter(args.filter_name, args.sort, 'ASC' if args.asc else 'DESC')
+    #     else:
+    #         list_all(args.sort, 'ASC' if args.asc else 'DESC')
     elif args.command == 'report':
         report()
 

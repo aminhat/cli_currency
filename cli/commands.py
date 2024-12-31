@@ -7,14 +7,12 @@ def add(name, values):
     postdata_db("INSERT INTO currencies (name, value) VALUES (%s, %s)", (name, values))
 
 def list_all(sort):
-    with open('database.csv', mode='r', newline='') as file:
-        reader = csv.reader(file)
-        rows = list(reader)
-        if sort:
-            rows.sort(key=lambda x: x[2])
-        for row in rows:
-            print(f'Name: {row[1]}, Value: {row[2]}, Date added: {row[3]}')
+    #get data from database in descending order
+    data = getdata_db("SELECT * FROM currencies ORDER BY value DESC" if sort else "SELECT * FROM currencies")
 
+    for row in data:
+        print(f'Name: {row[1]}, Value: {row[2]}')
+              
 def list_filter(name, sort):
     with open('database.csv', mode='r', newline='') as file:
         reader = csv.reader(file)

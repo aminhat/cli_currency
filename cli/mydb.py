@@ -1,6 +1,6 @@
 import psycopg2
 
-def getdata_db(query):
+def getـdata_db(query):
     conn = psycopg2.connect("dbname=cli_currency user=admin host=localhost port=5432 password=Mn8bV44C")
     cursor = conn.cursor()
     cursor.execute(query)
@@ -10,7 +10,7 @@ def getdata_db(query):
     conn.close()
     return data
 
-def postdata_db(query, values):
+def postـdata_db(query, values):
     conn = psycopg2.connect("dbname=cli_currency user=admin host=localhost port=5432 password=Mn8bV44C")
     cursor = conn.cursor()
     cursor.execute(query, values)

@@ -1,6 +1,6 @@
 def main():
     import argparse
-    from cli.commands import add, listc, report
+    from cli.commands import add_currency, listـcurrencies, report_min_max_currencies
 
     parser = argparse.ArgumentParser(description='My Python CLI Application about currencies')
     subparsers = parser.add_subparsers(dest='command')
@@ -23,14 +23,14 @@ def main():
     args = parser.parse_args()
 
     if args.command == 'add': 
-        add(args.name, args.value)
+        add_currency(args.name, args.value)
     elif args.command == 'list': 
-        listc(args.filter_name if args.filter else '',
+        listـcurrencies(args.filter_name if args.filter else '',
             args.sort,
             'ASC' if args.asc else 'DESC', 
             'created_at' if args.date else 'value')
     elif args.command == 'report':
-        report()
+        report_min_max_currencies()
 
 if __name__ == '__main__':
     main()

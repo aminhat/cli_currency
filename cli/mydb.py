@@ -17,3 +17,5 @@ def postـdata_db(query, values):
     conn.commit()
     cursor.close()
     conn.close()
+
+    

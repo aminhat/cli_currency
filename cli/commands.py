@@ -26,3 +26,4 @@ def report_min_max_currencies():
     print(colored(f"{'Currency':<10}{'Min price':<11}{'Max price':<10}", 'green'))
     for name, values in currency_data.items():
         print(f"{name:<10}{min(values):<11}{max(values):<10}")
+

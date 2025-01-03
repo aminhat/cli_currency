@@ -1,1 +1,7 @@
-/Users/amin/Documents/my-python-cli/src/cli/__pycache__
+.DS_Store
+.vscode
+__pycache__
+venv
+db.conf
+
+

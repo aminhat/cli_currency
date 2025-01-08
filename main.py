@@ -1,20 +1,9 @@
 def main():
+    from utils.db import DB
     import argparse
-    import configparser
-    import psycopg2
     from cli.commands import add_currency, listـcurrencies, report_min_max_currencies
 
-    config = configparser.ConfigParser()
-    config.read('db.conf')
-    db_config = config['database']
-    conn = psycopg2.connect(
-        host=db_config['host'],
-        port=db_config['port'],
-        dbname=db_config['dbname'],
-        user=db_config['user'],
-        password=db_config['password']
-    )
-    cursor = conn.cursor()
+    db = DB()
 
     parser = argparse.ArgumentParser(description='My Python CLI Application about currencies')
     subparsers = parser.add_subparsers(dest='command')
@@ -37,22 +26,17 @@ def main():
     args = parser.parse_args()
 
     if args.command == 'add': 
-        add_currency(args.name, args.value, cursor)
+        add_currency(args.name, args.value, db)
     elif args.command == 'list': 
         listـcurrencies(args.filter_name if args.filter else '',
             args.sort,
             'ASC' if args.asc else 'DESC', 
             'created_at' if args.date else 'value', 
-            cursor)
+            db)
     elif args.command == 'report':
-        report_min_max_currencies(cursor)
+        report_min_max_currencies(db)
 
-    conn.commit()
-    cursor.close()
-    conn.close()
 
 if __name__ == '__main__':
     main()
 
-
-    

@@ -1,45 +1,31 @@
-import csv
-import datetime
-import uuid
+from termcolor import colored
 
-def add(name, value):
-    unique_id = str(uuid.uuid4())
-    with open('database.csv', mode='a', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow([unique_id, name, value, datetime.datetime.now()])
+def add_currency(name, value, db):
+    db.execute("INSERT INTO currencies (name, value) VALUES (%s, %s)", (name, value))
+    db.commit()
 
-def list_all(sort):
-    with open('database.csv', mode='r', newline='') as file:
-        reader = csv.reader(file)
-        rows = list(reader)
-        if sort:
-            rows.sort(key=lambda x: x[2])
-        for row in rows:
-            print(f'Name: {row[1]}, Value: {row[2]}, Date added: {row[3]}')
+def listـcurrencies(filter_name, is_sorted, sort_order, sort_by, db):
+    sort_query = f"ORDER BY {sort_by} {sort_order}" if is_sorted else ""
+    filter_query = f"WHERE name = '{filter_name}'" if filter_name != "" else ""
+    db.execute(f"SELECT name, value FROM currencies {filter_query} {sort_query}")
+    data = db.fetchall()
 
-def list_filter(name, sort):
-    with open('database.csv', mode='r', newline='') as file:
-        reader = csv.reader(file)
-        rows = list(reader)
-        if sort:
-            rows.sort(key=lambda x: x[2])
-        for row in rows:
-            if row[1] == name:
-                print(f'Name: {row[1]}, Value: {row[2]}, Date added: {row[3]}')
+    print(colored(f"{'Name':<10}{'price':<10}", 'green'))
+    for row in data:
+        print(f"{row[0]:<10}{row[1]:<10}")
 
-def report():
-    with open('database.csv', mode='r', newline='') as file:
-        reader = csv.reader(file)
-        currency_data = {}
+def report_min_max_currencies(db):
+    db.execute("SELECT name, value FROM currencies")
+    data = db.fetchall()
+    currency_data = {}
+    for row in data:
+        name = row[0]
+        value = float(row[1])
+        if name not in currency_data:
+            currency_data[name] = []
+        currency_data[name].append(value)
 
-        for row in reader:
-            name = row[1]
-            value = float(row[2])
-            if name not in currency_data:
-                currency_data[name] = []
-            currency_data[name].append(value)
+    print(colored(f"{'Currency':<10}{'Min price':<11}{'Max price':<10}", 'green'))
+    for name, values in currency_data.items():
+        print(f"{name:<10}{min(values):<11}{max(values):<10}")
 
-        for name, values in currency_data.items():
-            min_value = min(values)
-            max_value = max(values)
-            print(f'Currency: {name}, Min Value: {min_value}, Max Value: {max_value}')
